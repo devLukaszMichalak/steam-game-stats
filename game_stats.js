@@ -110,4 +110,4 @@ function saveCurrentPlayingGame() {
 
 setUpFilesIfNeeded();
 saveCurrentPlayingGame();
-setInterval(() => saveCurrentPlayingGame(), 60 * 100);
+setInterval(() => saveCurrentPlayingGame(), 60 * 1000);
