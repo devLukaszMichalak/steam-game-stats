@@ -23,6 +23,7 @@ function getCurrentTimestamp() {
 }
 
 function dealWithError(error) {
+    console.log(error);
     fs.appendFileSync(game_logs, `${getCurrentTimestamp()}: ${error}\n`);
 }
 
@@ -51,7 +52,7 @@ function incrementStatsFile(gameName) {
 
     fs.readFile(game_stats, (error, data) => {
         if (error) {
-            dealWithError(error)
+            dealWithError(error);
         }
 
         const jsonData = JSON.parse(data);
@@ -62,7 +63,7 @@ function incrementStatsFile(gameName) {
 
         fs.writeFile(game_stats, JSON.stringify(jsonData), (error) => {
             if (error) {
-                dealWithError(error)
+                dealWithError(error);
             }
         });
     });
@@ -99,7 +100,7 @@ function saveCurrentPlayingGame() {
     const url = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamId}`;
     https.get(url, (response) => {
         if (response.statusCode === 200) {
-            dealWithResponse(response)
+            dealWithResponse(response);
         } else {
             dealWithError(response.statusCode);
         }
@@ -109,5 +110,6 @@ function saveCurrentPlayingGame() {
 }
 
 setUpFilesIfNeeded();
+console.log(`Started collecting data for steamId: ${steamId}.`)
 saveCurrentPlayingGame();
 setInterval(() => saveCurrentPlayingGame(), 60 * 1000);
