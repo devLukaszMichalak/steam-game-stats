@@ -102,7 +102,7 @@ function saveCurrentPlayingGame() {
         if (response.statusCode === 200) {
             dealWithResponse(response);
         } else {
-            dealWithError(response.statusCode);
+            dealWithError(`Steam api responded with status code: ${response.statusCode}`);
         }
     }).on('error', (error) => {
         dealWithError(error);
