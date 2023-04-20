@@ -21,6 +21,7 @@ jobs:
       - run:
           name: Deploy to server
           command: |
+            sudo apt-get install sshpass -y
             sshpass -p "${PASS}" scp -r dist/index.js ${VPS}:/root/scripts/deployments/${CIRCLE_BUILD_NUM}
           
 
