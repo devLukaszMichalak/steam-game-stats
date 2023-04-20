@@ -12,7 +12,7 @@ jobs:
           command: |
             mkdir -p src/environments
             touch src/environments/environments.js
-            echo -e "const STEAM_API_KEY = "${API_KEY}"; \n module.exports = { \n STEAM_API_KEY \n };" > src/environments/environment.js
+            echo -e "const STEAM_API_KEY = '${API_KEY}'; \n module.exports = { \n STEAM_API_KEY \n };" > src/environments/environment.js
       - run:
           name: Compile into one file
           command: |
