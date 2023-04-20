@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Compile into one file
           command: |
-            npm i -g @vercel/ncc
+            npm i @vercel/ncc
             ncc build /src/game-stats.js -o dist
       - run:
           name: Deploy to server
