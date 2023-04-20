@@ -18,13 +18,12 @@ function setUpFilesIfNeeded() {
 function getCurrentTimestamp() {
     const now = new Date();
     const timezoneOffset = now.getTimezoneOffset() + 120;
-    const timestamp = new Date(now.getTime() - timezoneOffset * 60 * 1000).toISOString();
-    return timestamp;
+    return new Date(now.getTime() - timezoneOffset * 60 * 1000);
 }
 
 function dealWithError(error) {
     console.log(error);
-    fs.appendFileSync(game_logs, `${getCurrentTimestamp()}: ${error}\n`);
+    fs.appendFileSync(game_logs, `${getCurrentTimestamp().toISOString()}: ${error}\n`);
 }
 
 function getFormattedResult(gameName, personName, timestamp) {
@@ -48,7 +47,7 @@ function incrementStatsFile(gameName) {
         gameName = 'no_game';
     }
 
-    const dateId = (new Date()).toJSON().substring(0, 10);
+    const dateId = getCurrentTimestamp().toJSON().substring(0, 10);
 
     fs.readFile(game_stats, (error, data) => {
         if (error) {
@@ -88,8 +87,8 @@ function dealWithResponse(response) {
     });
     response.on('end', () => {
         const {gameName, personName} = extractGameInformation(data);
-        const timestamp = getCurrentTimestamp();
-        const resultLog = getFormattedResult(gameName, personName, timestamp);
+        const timestampString = getCurrentTimestamp().toISOString();
+        const resultLog = getFormattedResult(gameName, personName, timestampString);
 
         appednToLogFile(resultLog);
         incrementStatsFile(gameName);
