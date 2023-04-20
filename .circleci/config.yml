@@ -19,12 +19,18 @@ jobs:
             sudo npm i -g @vercel/ncc
             ncc build src/game-stats.js -o dist
       - run:
-          name: Deploy to server
+          name: Set up deployment
           command: |
             sudo apt-get update
             sudo apt-get install sshpass
             ssh-keyscan ${IP} >> /home/circleci/.ssh/known_hosts
-            sshpass -p ${PASS} scp -r dist/index.js ${VPS}:/root/scripts/deployments/${CIRCLE_BUILD_NUM}/
+      - run:
+          name: Deploy to server
+          command: |
+            sshpass -p ${PASS} ssh ${VPS}
+            mkdir -p /scripts/deployments/${CIRCLE_BUILD_NUM}/
+            logout
+            sshpass -p ${PASS} scp dist/index.js ${VPS}:/root/scripts/deployments/${CIRCLE_BUILD_NUM}/
           
 
 
