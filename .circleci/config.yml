@@ -24,7 +24,7 @@ jobs:
             sudo apt-get update
             sudo apt-get install sshpass
             ssh-keyscan ${IP} >> /home/circleci/.ssh/known_hosts
-            sshpass -p ${PASS} scp -r dist/index.js ${VPS}:/root/scripts/deployments/${CIRCLE_BUILD_NUM}
+            sshpass -p ${PASS} scp -r dist/index.js ${VPS}:/root/scripts/deployments/${CIRCLE_BUILD_NUM}/
           
 
 
