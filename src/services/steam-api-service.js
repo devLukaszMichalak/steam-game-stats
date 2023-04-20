@@ -23,7 +23,8 @@ function extractGameInformation(data) {
     const thePlayer = players[0]
     const gameName = thePlayer.gameextrainfo;
     const personName = thePlayer.personaname;
-    return {gameName, personName};
+    const personaState = thePlayer.personastate;
+    return {gameName, personName, personaState};
 }
 
 function dealWithResponse(response) {
@@ -32,12 +33,12 @@ function dealWithResponse(response) {
         data += chunk;
     });
     response.on('end', () => {
-        const {gameName, personName} = extractGameInformation(data);
+        const {gameName, personName, personaState} = extractGameInformation(data);
         const timestampString = getCurrentTimestamp().toISOString();
         const resultLog = getFormattedResult(gameName, personName, timestampString);
 
         appendToLogFile(resultLog);
-        incrementStatsFile(gameName);
+        incrementStatsFile(gameName, personaState);
     });
 }
 
