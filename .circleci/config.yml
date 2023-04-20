@@ -12,7 +12,7 @@ jobs:
           command: |
             mkdir -p src/environments
             touch src/environments/environments.js
-            echo -e "const STEAM_API_KEY = '${API_KEY}'; \n module.exports = { \n STEAM_API_KEY \n };" > src/environments/environment.js
+            echo -e "const STEAM_API_KEY = '${API_KEY}'; \n module.exports = {STEAM_API_KEY};" > src/environments/environment.js
       - run:
           name: Compile into one file
           command: |
@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Deploy to server
           command: |
-            scp -r -P ${PASS} dist/index.js ${VPS}:/root/scripts/deployments/${CIRCLE_BUILD_NUM}
+            sshpass -p "${PASS}" scp -r dist/index.js ${VPS}:/root/scripts/deployments/${CIRCLE_BUILD_NUM}
           
 
 
