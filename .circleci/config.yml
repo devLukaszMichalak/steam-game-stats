@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Deploy to server
           command: |
-            sshpass -p ${PASS} ssh ${VPS} -t 'mkdir -p /scripts/deployments/${CIRCLE_BUILD_NUM}; exit'
+            sshpass -p ${PASS} ssh ${VPS} -t 'mkdir -p /root/scripts/deployments/${CIRCLE_BUILD_NUM}; exit'
             sshpass -p ${PASS} scp dist/index.js ${VPS}:/root/scripts/deployments/${CIRCLE_BUILD_NUM}
           
 
