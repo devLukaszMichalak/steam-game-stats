@@ -46,4 +46,4 @@ game_logs.txt
 game_stats.json
 
 #env
-environment.js
+src/environments/environment.js

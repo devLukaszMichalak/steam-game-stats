@@ -1,0 +1,19 @@
+{
+  "name": "steam-game-stats",
+  "version": "1.0.0",
+  "description": "Gathering the play time",
+  "main": "src/game_stats.js",
+  "scripts": {
+    "run": "node src/game_stats.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devLukaszMichalak/steam-game-stats.git"
+  },
+  "author": "Łukasz Michalak devLukaszMichalak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devLukaszMichalak/steam-game-stats/issues"
+  },
+  "homepage": "https://github.com/devLukaszMichalak/steam-game-stats#readme"
+}
