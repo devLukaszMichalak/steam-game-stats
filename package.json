@@ -4,7 +4,7 @@
   "description": "Gathering the play time",
   "main": "src/game_stats.js",
   "scripts": {
-    "run": "node src/game_stats.js"
+    "run": "node src/game-stats.js"
   },
   "repository": {
     "type": "git",
