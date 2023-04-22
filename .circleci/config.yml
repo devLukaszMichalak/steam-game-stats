@@ -21,10 +21,12 @@ jobs:
           paths:
             - ~/.npm
       - run:
-          name: Inject configuration into environments.ts
+          name: Inject configuration into environments.js
           command: |
             mkdir -p src/environments
             echo -e "const STEAM_API_KEY = '${API_KEY}'; \n const POSTGRES_POOL = {user: '${PG_USER}', host: '${PG_HOST}', database: '${PG_DB}', password: '${PG_PASS}', port: '${PG_PORT}'};  \n module.exports = {STEAM_API_KEY, POSTGRES_POOL};" > src/environments/environment.js
+            ls src
+            ls src/environments
       - run:
           name: Compile into one file
           command: |
