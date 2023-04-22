@@ -24,7 +24,7 @@ jobs:
           name: Inject configuration into environments.ts
           command: |
             mkdir -p src/environments
-            echo $ENV > src/environments/environment.js
+            echo "$ENV" > src/environments/environment.js
       - run:
           name: Compile into one file
           command: |
