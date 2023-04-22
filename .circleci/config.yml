@@ -22,11 +22,11 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install sshpass
-            ssh-keyscan ${IP} >> /home/circleci/.ssh/known_hosts
+            ssh-keyscan $IP >> /home/circleci/.ssh/known_hosts
       - run:
           name: Deploy to server
           command: |
-            sshpass -p ${PASS} scp dist/index.js ${VPS}:/root/scripts/deployments/game-stats/${CIRCLE_BUILD_NUM}.js
+            sshpass -p $PASS scp dist/index.js $VPS:/root/scripts/deployments/game-stats/$CIRCLE_BUILD_NUM.js
 
 workflows:
   build_and_deploy:
