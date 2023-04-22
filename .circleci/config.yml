@@ -7,6 +7,19 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - restore_cache:
+          name: Restore cache
+          keys:
+            - npm-cache-{{ checksum "package-lock.json" }}
+            - npm-cache-
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          name: Save cache
+          key: npm-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
       - run:
           name: Inject configuration into environments.ts
           command: |
