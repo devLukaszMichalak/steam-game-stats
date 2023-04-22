@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/devLukaszMichalak/steam-game-stats/issues"
   },
-  "homepage": "https://github.com/devLukaszMichalak/steam-game-stats#readme"
+  "homepage": "https://github.com/devLukaszMichalak/steam-game-stats#readme",
+  "dependencies": {
+    "pg": "^8.10.0"
+  }
 }

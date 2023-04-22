@@ -11,7 +11,7 @@ jobs:
           name: Inject configuration into environments.ts
           command: |
             mkdir -p src/environments
-            echo -e "const STEAM_API_KEY = '${API_KEY}'; \n module.exports = {STEAM_API_KEY};" > src/environments/environment.js
+            echo -e "const ${ENV}" > src/environments/environment.js
       - run:
           name: Compile into one file
           command: |

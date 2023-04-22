@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const {getCurrentTimestamp} = require("./date-service");
+const {getCurrentTimestamp} = require("./date");
 const {PERSONA_STATE} = require("../enums/personastate");
 
 const GAME_LOGS = 'game_logs.txt';

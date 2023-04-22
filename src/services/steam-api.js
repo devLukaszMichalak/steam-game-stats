@@ -1,7 +1,8 @@
 const https = require('https');
 
-const {dealWithError, appendToLogFile, incrementStatsFile} = require("./file-service");
-const {getCurrentTimestamp} = require("./date-service");
+const {dealWithError, appendToLogFile, incrementStatsFile} = require("./file");
+const {getCurrentTimestamp} = require("./date");
+const {updateUserStats} = require("./database");
 const {STEAM_API_KEY} = require("../environments/environment");
 
 const apiKey = STEAM_API_KEY
@@ -39,6 +40,7 @@ function dealWithResponse(response) {
 
         appendToLogFile(resultLog);
         incrementStatsFile(gameName, personaState);
+        updateUserStats(gameName, personaState);
     });
 }
 
