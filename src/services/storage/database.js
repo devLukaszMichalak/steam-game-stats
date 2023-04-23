@@ -1,7 +1,8 @@
-const { Pool } = require('pg');
-const {getCurrentTimestamp} = require("./date");
-const {POSTGRES_POOL} = require("../environments/environment");
-const {PERSONA_STATE} = require("../enums/personastate");
+const {Pool} = require('pg');
+const {getCurrentTimestamp} = require("../utils/date");
+const {POSTGRES_POOL} = require("../../environments/environment");
+const {PERSONA_STATE} = require("../../enums/personastate");
+const {dealWithError} = require("./file");
 
 const pool = new Pool(POSTGRES_POOL);
 
@@ -22,9 +23,9 @@ const createTablesQuery = `
 
 
 function initializeTables() {
-    pool.query(createTablesQuery, (err, res) => {
-        if (err) {
-            console.error(err);
+    pool.query(createTablesQuery, (error, res) => {
+        if (error) {
+            dealWithError(error);
         }
     });
 }
@@ -40,15 +41,26 @@ function getUpdateUserSQL(gameName, date) {
 function updateUserStats(gameName, personaState) {
     if (gameName !== undefined && personaState !== PERSONA_STATE.Snooze && personaState !== PERSONA_STATE.Offline) {
         const date = getCurrentTimestamp().toJSON().substring(0, 10);
-        pool.query(getUpdateUserSQL(gameName, date), (err, res) => {
-            if (err) {
-                console.error(err);
+        pool.query(getUpdateUserSQL(gameName, date), (error, res) => {
+            if (error) {
+                dealWithError(error);
             }
         });
     }
 }
 
+function getUserStats(callback) {
+    pool.query(`SELECT games.name, game_data.date, game_data.minutes_played
+                FROM game_data JOIN games ON game_data.game_id = games.id;`, (error, results) => {
+        if (error) {
+            dealWithError(error);
+        }
+        callback(results.rows);
+    });
+}
+
 module.exports = {
     initializeTables,
-    updateUserStats
+    updateUserStats,
+    getUserStats
 }

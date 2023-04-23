@@ -1,9 +1,9 @@
 const https = require('https');
 
-const {dealWithError, appendToLogFile, incrementStatsFile} = require("./file");
-const {getCurrentTimestamp} = require("./date");
-const {updateUserStats} = require("./database");
-const {STEAM_API_KEY} = require("../environments/environment");
+const {dealWithError, appendToLogFile, incrementStatsFile} = require("../storage/file");
+const {getCurrentTimestamp} = require("../utils/date");
+const {updateUserStats} = require("../storage/database");
+const {STEAM_API_KEY} = require("../../environments/environment");
 
 const apiKey = STEAM_API_KEY
 
