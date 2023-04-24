@@ -1,10 +1,10 @@
 const https = require('https');
 
-const {dealWithError, appendLogFile} = require("../storage/file");
+const {dealWithError, appendLogFile} = require("../logs/log");
 const {getCurrentTimestamp} = require("../utils/date");
-const {updateUserStats} = require("../storage/database");
-const {STEAM_API_KEY} = require("../../environments/environment");
-const {PERSONA_STATE, mapPersonStatus} = require("../../enums/personastate");
+const {updateUserStats} = require("../stats/stats-repository");
+const {STEAM_API_KEY} = require("../environments/environment");
+const {mapPersonStatus} = require("../utils/personastate");
 
 const apiKey = STEAM_API_KEY
 

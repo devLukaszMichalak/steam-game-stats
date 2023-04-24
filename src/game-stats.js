@@ -1,16 +1,14 @@
-const {setUpFilesIfNeeded} = require("./services/storage/file");
-const {saveCurrentPlayingGame} = require("./services/data/steam-api");
-const {initializeTables} = require("./services/storage/database");
-const express = require('express');
-const {initializeDataServer} = require("./services/data/data-server");
+const log = require("./logs/log");
+const statsRepository = require("./stats/stats-repository");
+const statsController = require("./stats/stats-controller");
+const {saveCurrentPlayingGame} = require("./steam-api/steam-api");
 
-const app = express();
 const steamId = "76561198082805335";
 
-setUpFilesIfNeeded();
-initializeTables()
+log.setUpLogFileIfNeeded();
+statsRepository.initializeTables()
 
-initializeDataServer(app)
+statsController.initializeStatsController()
 
 console.log(`Started collecting data for steamId: ${steamId}.`)
 

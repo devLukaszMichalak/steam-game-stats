@@ -1,8 +1,8 @@
 const {Pool} = require('pg');
 const {getCurrentTimestamp} = require("../utils/date");
-const {POSTGRES_POOL} = require("../../environments/environment");
-const {PERSONA_STATE} = require("../../enums/personastate");
-const {dealWithError} = require("./file");
+const {POSTGRES_POOL} = require("../environments/environment");
+const {PERSONA_STATE} = require("../utils/personastate");
+const {dealWithError} = require("../logs/log");
 
 const pool = new Pool(POSTGRES_POOL);
 

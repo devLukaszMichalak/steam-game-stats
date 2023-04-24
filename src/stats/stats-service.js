@@ -1,4 +1,4 @@
-const {getUserStats} = require("../storage/database");
+const statsRepository = require("./stats-repository");
 
 function formatData(data) {
     return data.reduce((acc, {name, date, minutes_played}) => {
@@ -16,18 +16,12 @@ function formatData(data) {
     }, {});
 }
 
-function initializeDataServer(app) {
-    app.get('/stats', async (req, res) => {
-        getUserStats((data) => {
-            res.send(formatData(data));
-        });
-    });
-
-    app.listen(3000, () => {
-        console.log('Server is listening on port 3000');
+function getUserStats(callback) {
+    statsRepository.getUserStats(data => {
+        callback(formatData(data));
     });
 }
 
 module.exports = {
-    initializeDataServer
+    getUserStats,
 }

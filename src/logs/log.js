@@ -3,14 +3,10 @@ const fs = require('fs');
 const {getCurrentTimestamp} = require("../utils/date");
 
 const GAME_LOGS = 'game_logs.txt';
-const GAME_STATS = 'game_stats.json';
 
-function setUpFilesIfNeeded() {
+function setUpLogFileIfNeeded() {
     if (!fs.existsSync(GAME_LOGS)) {
         fs.writeFileSync(GAME_LOGS, '');
-    }
-    if (!fs.existsSync(GAME_STATS)) {
-        fs.writeFileSync(GAME_STATS, '{}');
     }
 }
 
@@ -28,7 +24,7 @@ function appendLogFile(result) {
 }
 
 module.exports = {
-    setUpFilesIfNeeded,
+    setUpLogFileIfNeeded,
     dealWithError,
     appendLogFile
 };
