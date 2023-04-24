@@ -1,19 +1,13 @@
 version: 2.1
 
 jobs:
-  checkout:
-    docker:
-      - image: cimg/node:current
-    working_directory: ~/repo
-    steps:
-      - checkout
-
   build_and_deploy_backend:
     docker:
       - image: cimg/node:current
     working_directory: ~/repo/backend
     steps:
-      - checkout
+      - checkout:
+          path: ~/repo
       - restore_cache:
           name: Restore cache
           keys:
@@ -72,10 +66,6 @@ jobs:
 workflows:
   build_and_deploy:
     jobs:
-      - checkout:
-          filters:
-            branches:
-              only: main
       - build_and_deploy_backend:
           filters:
             branches:
