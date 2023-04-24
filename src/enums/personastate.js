@@ -8,6 +8,19 @@ const PERSONA_STATE = {
     LookingToPlay: 6,
 };
 
+function mapPersonStatus(status) {
+    switch (status) {
+        case 0: return 'Offline'
+        case 1: return 'Online'
+        case 2: return 'Busy'
+        case 3: return 'Away'
+        case 4: return 'Snooze'
+        case 5: return 'LookingToTrade'
+        case 6: return 'LookingToPlay'
+    }
+}
+
 module.exports = {
-    PERSONA_STATE: PERSONA_STATE
+    PERSONA_STATE,
+    mapPersonStatus
 }

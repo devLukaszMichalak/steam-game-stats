@@ -1,17 +1,18 @@
 const https = require('https');
 
-const {dealWithError, appendToLogFile, incrementStatsFile} = require("../storage/file");
+const {dealWithError, appendLogFile} = require("../storage/file");
 const {getCurrentTimestamp} = require("../utils/date");
 const {updateUserStats} = require("../storage/database");
 const {STEAM_API_KEY} = require("../../environments/environment");
+const {PERSONA_STATE, mapPersonStatus} = require("../../enums/personastate");
 
 const apiKey = STEAM_API_KEY
 
-function getFormattedResult(gameName, personName, timestamp) {
+function getFormattedResult(gameName, personName, timestamp, personaState) {
     if (gameName !== undefined) {
-        return `${personName} at ${timestamp} is playing ${gameName}\n`;
+        return `${personName} at ${timestamp} is playing ${gameName}. Status: ${mapPersonStatus(personaState)}\n`;
     } else {
-        return `${personName} at ${timestamp} is not playing any game\n`;
+        return `${personName} at ${timestamp} is not playing any game. Status: ${mapPersonStatus(personaState)}\n`;
     }
 }
 
@@ -36,10 +37,9 @@ function dealWithResponse(response) {
     response.on('end', () => {
         const {gameName, personName, personaState} = extractGameInformation(data);
         const timestampString = getCurrentTimestamp().toISOString();
-        const resultLog = getFormattedResult(gameName, personName, timestampString);
+        const resultLog = getFormattedResult(gameName, personName, timestampString, personaState);
 
-        appendToLogFile(resultLog);
-        incrementStatsFile(gameName, personaState);
+        appendLogFile(resultLog);
         updateUserStats(gameName, personaState);
     });
 }
