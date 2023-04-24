@@ -16,6 +16,9 @@ jobs:
       - run:
           name: Install dependencies
           command: npm install
+      - run:
+          name: test
+          command: ls
       - save_cache:
           name: Save cache
           key: npm-cache-{{ checksum "package-lock.json" }}
