@@ -11,16 +11,16 @@ jobs:
       - restore_cache:
           name: Restore cache
           keys:
-            - npm-cache-{{ checksum "package-lock.json" }}
-            - npm-cache-
+            - backend-npm-cache-{{ checksum "package-lock.json" }}
+            - backend-npm-cache-
       - run:
           name: Install dependencies
           command: npm install
       - save_cache:
           name: Save cache
-          key: npm-cache-{{ checksum "package-lock.json" }}
+          key: backend-npm-cache-{{ checksum "package-lock.json" }}
           paths:
-            - .npm-backend
+            - .npm
       - run:
           name: Inject configuration into environments.js
           command: |
@@ -52,16 +52,16 @@ jobs:
 #      - restore_cache:
 #          name: Restore cache
 #          keys:
-#            - npm-cache-{{ checksum "package-lock.json" }}
-#            - npm-cache-
+#            - frontend-npm-cache-{{ checksum "package-lock.json" }}
+#            - frontend-npm-cache-
 #      - run:
 #          name: Install dependencies
 #          command: npm install
 #      - save_cache:
 #          name: Save cache
-#          key: npm-cache-{{ checksum "package-lock.json" }}
+#          key: frontend-npm-cache-{{ checksum "package-lock.json" }}
 #          paths:
-#            - .npm-frontend
+#            - .npm
 
 workflows:
   build_and_deploy:
