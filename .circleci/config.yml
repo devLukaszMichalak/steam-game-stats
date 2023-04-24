@@ -16,14 +16,11 @@ jobs:
       - run:
           name: Install dependencies
           command: npm install
-      - run:
-          name: test
-          command: ls
       - save_cache:
           name: Save cache
           key: npm-cache-{{ checksum "package-lock.json" }}
           paths:
-            - .npm
+            - .npm-backend
       - run:
           name: Inject configuration into environments.js
           command: |
@@ -64,7 +61,7 @@ jobs:
 #          name: Save cache
 #          key: npm-cache-{{ checksum "package-lock.json" }}
 #          paths:
-#            - .npm
+#            - .npm-frontend
 
 workflows:
   build_and_deploy:
