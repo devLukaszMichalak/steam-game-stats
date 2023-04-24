@@ -12,7 +12,7 @@ jobs:
           name: Restore cache
           keys:
             - backend-npm-cache-{{ checksum "package-lock.json" }}
-            - backend-npm-cache-
+            - node_modules
       - run:
           name: Install dependencies
           command: npm install
@@ -53,7 +53,7 @@ jobs:
 #          name: Restore cache
 #          keys:
 #            - frontend-npm-cache-{{ checksum "package-lock.json" }}
-#            - frontend-npm-cache-
+#            - node_modules
 #      - run:
 #          name: Install dependencies
 #          command: npm install
