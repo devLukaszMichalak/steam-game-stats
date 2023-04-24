@@ -2,7 +2,7 @@ const {Pool} = require('pg');
 const {getCurrentTimestamp} = require("../utils/date");
 const {POSTGRES_POOL} = require("../environments/environment");
 const {PERSONA_STATE} = require("../utils/personastate");
-const {dealWithError} = require("../logs/log");
+const log = require("../logs/log");
 
 const pool = new Pool(POSTGRES_POOL);
 
@@ -25,7 +25,7 @@ const createTablesQuery = `
 function initializeTables() {
     pool.query(createTablesQuery, (error, res) => {
         if (error) {
-            dealWithError(error);
+            log.error(error);
         }
     });
 }
@@ -43,7 +43,7 @@ function updateUserStats(gameName, personaState) {
         const date = getCurrentTimestamp().toJSON().substring(0, 10);
         pool.query(getUpdateUserSQL(gameName, date), (error, res) => {
             if (error) {
-                dealWithError(error);
+                log.error(error);
             }
         });
     }
@@ -53,7 +53,7 @@ function getUserStats(callback) {
     pool.query(`SELECT games.name, game_data.date, game_data.minutes_played
                 FROM game_data JOIN games ON game_data.game_id = games.id;`, (error, results) => {
         if (error) {
-            dealWithError(error);
+            log.error(error);
         }
         callback(results.rows);
     });

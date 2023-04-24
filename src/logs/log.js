@@ -10,7 +10,7 @@ function setUpLogFileIfNeeded() {
     }
 }
 
-function dealWithError(error) {
+function logError(error) {
     console.log(error);
     fs.appendFileSync(GAME_LOGS, `${getCurrentTimestamp().toISOString()}: ${error}\n`);
 }
@@ -18,13 +18,13 @@ function dealWithError(error) {
 function appendLogFile(result) {
     fs.appendFile(GAME_LOGS, result, (error) => {
         if (error) {
-            dealWithError(error);
+            logError(error);
         }
     });
 }
 
 module.exports = {
     setUpLogFileIfNeeded,
-    dealWithError,
+    error: logError,
     appendLogFile
 };

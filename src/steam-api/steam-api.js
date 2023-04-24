@@ -1,6 +1,6 @@
 const https = require('https');
 
-const {dealWithError, appendLogFile} = require("../logs/log");
+const log = require("../logs/log");
 const {getCurrentTimestamp} = require("../utils/date");
 const {updateUserStats} = require("../stats/stats-repository");
 const {STEAM_API_KEY} = require("../environments/environment");
@@ -20,7 +20,7 @@ function extractGameInformation(data) {
     const players = JSON.parse(data).response.players
     if (players.length === 0) {
         const error = `No such player found!`;
-        dealWithError(error);
+        log.error(error);
     }
     const thePlayer = players[0]
     const gameName = thePlayer.gameextrainfo;
@@ -39,7 +39,7 @@ function dealWithResponse(response) {
         const timestampString = getCurrentTimestamp().toISOString();
         const resultLog = getFormattedResult(gameName, personName, timestampString, personaState);
 
-        appendLogFile(resultLog);
+        log.appendLogFile(resultLog);
         updateUserStats(gameName, personaState);
     });
 }
@@ -50,10 +50,10 @@ function saveCurrentPlayingGame(steamId) {
         if (response.statusCode === 200) {
             dealWithResponse(response);
         } else {
-            dealWithError(`Steam api responded with status code: ${response.statusCode}`);
+            log.error(`Steam api responded with status code: ${response.statusCode}`);
         }
     }).on('error', (error) => {
-        dealWithError(error);
+        log.error(error);
     });
 }
 
