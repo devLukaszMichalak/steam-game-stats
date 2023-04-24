@@ -76,7 +76,6 @@ workflows:
           filters:
             branches:
               only: main
-    jobs:
       - build_and_deploy_backend:
           filters:
             branches:
