@@ -2,7 +2,7 @@
   "name": "steam-game-stats",
   "version": "1.0.0",
   "description": "Gathering the play time",
-  "main": "src/game_stats.js",
+  "main": "backend/src/game_stats.js",
   "scripts": {
     "run": "node src/game-stats.js"
   },
