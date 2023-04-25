@@ -9,9 +9,10 @@ jobs:
       - checkout:
           path: ~/repo
       - restore_cache:
-          name: Restore cache
+          name: Restore node_modules cache
           keys:
             - backend-npm-cache-{{ checksum "package-lock.json" }}
+            - backend-npm-cache-
       - run:
           name: Install dependencies
           command: npm install
