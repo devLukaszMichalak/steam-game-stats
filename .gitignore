@@ -53,3 +53,6 @@ backend/game_logs.txt
 #env
 backend/src/environments/environment.js
 frontend/src/environments/environment.ts
+
+#cert
+backend/src/cert/
