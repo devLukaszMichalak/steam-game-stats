@@ -83,7 +83,13 @@ workflows:
           filters:
             branches:
               only: main
+            paths:
+              exist:
+                - backend/**
       - build_and_deploy_frontend:
           filters:
             branches:
               only: main
+            paths:
+              exist:
+                - frontend/**

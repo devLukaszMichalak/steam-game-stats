@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "/dist",
+    "public": "/dist/steam-game-stats",
     "ignore": [
       "firebase.json",
       "**/.*",
