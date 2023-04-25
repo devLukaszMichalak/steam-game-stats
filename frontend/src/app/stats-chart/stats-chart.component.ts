@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Chart} from "chart.js";
-import {BarController, BarElement, LinearScale, CategoryScale} from 'chart.js';
+import {Component, inject, OnInit} from '@angular/core';
+import {BarController, BarElement, CategoryScale, Chart, Legend, LinearScale} from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {StatsService} from "../services/stats.service";
 
 @Component({
   selector: 'app-stats-chart',
@@ -9,21 +10,72 @@ import {BarController, BarElement, LinearScale, CategoryScale} from 'chart.js';
 })
 export class StatsChartComponent implements OnInit{
 
-  private readonly data: any = {"2023-04-21":{"Dota 2":64,"Dying Light 2":340,"Counter-Strike: Global Offensive":29},"2023-04-23":{"Dying Light 2":314,"Team Fortress 2":65,"Counter-Strike: Global Offensive":15},"2023-04-22":{"Dying Light 2":188,"Team Fortress 2":220,"Counter-Strike: Global Offensive":32},"2023-04-20":{"Dying Light 2":38},"2023-04-24":{"Team Fortress 2":239}}
+  statsService = inject(StatsService);
+
   private chart?: Chart;
 
-  private getDays(): string[]{
-    const days = Object.keys(this.data);
-    return days;
+  ngOnInit() {
+    this.statsService.getData().subscribe((data: any) => {
+      const canvas = document.getElementById('myChart') as HTMLCanvasElement;
+      Chart.register(BarController, BarElement, LinearScale, CategoryScale, Legend, ChartDataLabels);
+      this.chart = new Chart(canvas, {
+        type: 'bar',
+        data: {
+          labels: this.getDays(data),
+          datasets: this.getDatasetsFromData(data)
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: true,
+              position: "bottom"
+            },
+            datalabels: {
+              color: '#000505',
+              formatter: function(value, context) {
+                if (value === 0) {
+                  return '';
+                } else {
+                  if(value > 60) {
+                    const minutes = value % 60;
+                    const hours = Math.floor(value/60);
+                    return `${hours} godz. ${minutes} min.`
+                  } else {
+                    return `${value} min.`;
+                  }
+                }
+              },
+              font: {
+                weight: 'bold',
+                size: 18
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    })
+  }
+
+  private getDays(data: any): string[]{
+    return Object.keys(data);
   }
 
   private getDatasetsFromData(data: any) {
     const counts: any = {};
 
     for (const date of Object.keys(data)) {
-
       for (const game of Object.keys(data[date])) {
-
         counts[game] = counts[game] || [];
         counts[game].push(data[date][game]);
       }
@@ -31,11 +83,13 @@ export class StatsChartComponent implements OnInit{
 
     const datasets = [];
     for (const game of Object.keys(counts)) {
+      const color = this.getRandomColor();
       datasets.push({
         label: game,
         data: counts[game],
-        backgroundColor: this.getRandomColor(),
-        borderWidth: 1
+        backgroundColor: color,
+        borderWidth: 4,
+        borderColor: color.replace(`0.4`,`0.55`)
       });
     }
     return datasets;
@@ -45,29 +99,6 @@ export class StatsChartComponent implements OnInit{
     const r = Math.floor(Math.random() * 256);
     const g = Math.floor(Math.random() * 256);
     const b = Math.floor(Math.random() * 256);
-    return `rgba(${r}, ${g}, ${b}, 0.2)`;
-  }
-
-  ngOnInit() {
-    const canvas = document.getElementById('myChart') as HTMLCanvasElement;
-    Chart.register(BarController, BarElement, LinearScale, CategoryScale);
-    this.chart = new Chart(canvas, {
-      type: 'bar',
-      data: {
-        labels: this.getDays(),
-        datasets: this.getDatasetsFromData(this.data)
-      },
-      options: {
-        scales: {
-          x: {
-            stacked: true
-          },
-          y: {
-            stacked: true,
-            beginAtZero: true
-          }
-        }
-      }
-    });
+    return `rgba(${r}, ${g}, ${b}, 0.4)`;
   }
 }
