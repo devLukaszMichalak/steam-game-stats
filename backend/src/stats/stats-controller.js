@@ -6,6 +6,7 @@ function initializeDataServer() {
 
     app.get('/stats', async (req, res) => {
         statsService.getUserStats((data) => {
+            res.set('Access-Control-Allow-Origin', '*');
             res.send(data);
         });
     });
