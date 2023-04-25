@@ -26,7 +26,7 @@ jobs:
           command: |
             mkdir -p src/environments
             touch src/environments/environment.js
-            echo -e "const STEAM_API_KEY = '${API_KEY}'; \n const POSTGRES_POOL = {user: '${PG_USER}', host: '${PG_HOST}', database: '${PG_DB}', password: '${PG_PASS}', port: '${PG_PORT}'};  \n module.exports = {STEAM_API_KEY, POSTGRES_POOL};" > src/environments/environment.js
+            echo -e "const STEAM_API_KEY = '${API_KEY}'; \n const POSTGRES_POOL = {user: '${PG_USER}', host: '${PG_HOST}', database: '${PG_DB}', password: '${PG_PASS}', port: '${PG_PORT}'};  \n const CERT = '${HTTPS_CERT}'; \n const KEY = '${HTTPS_KEY}'; \n module.exports = {STEAM_API_KEY, POSTGRES_POOL, CERT, KEY};" > src/environments/environment.js
       - run:
           name: Compile into one file
           command: |
