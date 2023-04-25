@@ -48,7 +48,7 @@ testem.log
 Thumbs.db
 
 # Output
-backend/game_logs.txt
+/backend/game_logs.txt
 
 #env
 backend/src/environments/environment.js

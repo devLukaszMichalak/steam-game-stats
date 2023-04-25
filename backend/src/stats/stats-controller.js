@@ -2,10 +2,11 @@ const statsService = require("./stats-service");
 const express = require('express');
 const fs = require('fs');
 const https = require('https');
+const {KEY, CERT} = require('../environments/environment')
 
 const options = {
-    key: fs.readFileSync('cert/key.pem'),
-    cert: fs.readFileSync('cert/cert.pem')
+    key: KEY,
+    cert: CERT
 };
 
 function initializeDataServer() {
