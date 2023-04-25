@@ -17,6 +17,9 @@ yarn-error.log
 .idea/
 .project
 /frontend/.angular
+/frontend/.firebase
+/frontend/firebase-debug.log*
+/frontend/firebase-debug.*.log*
 .classpath
 .c9/
 *.launch
