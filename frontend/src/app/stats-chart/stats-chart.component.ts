@@ -57,7 +57,10 @@ export class StatsChartComponent implements OnInit{
             },
             y: {
               stacked: true,
-              beginAtZero: true
+              beginAtZero: true,
+              ticks: {
+                stepSize: 60
+              }
             }
           },
           responsive: true,
