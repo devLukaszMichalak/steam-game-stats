@@ -92,13 +92,7 @@ workflows:
           filters:
             branches:
               only: main
-            paths:
-              only:
-                - 'backend/**'
       - build_and_deploy_frontend:
           filters:
             branches:
               only: main
-            paths:
-              only:
-                - 'frontend/**'
