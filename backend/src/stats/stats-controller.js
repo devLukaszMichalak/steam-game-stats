@@ -2,15 +2,16 @@ const statsService = require("./stats-service");
 const express = require('express');
 const fs = require('fs');
 const https = require('https');
-const {KEY, CERT} = require('../environments/environment')
 
 const options = {
-    key: KEY,
-    cert: CERT
+    key: fs.readFileSync("cert/key.pem"),
+    cert: fs.readFileSync("cert/cert.pem")
 };
 
-function initializeDataServer() {
+function initializeStatsController() {
     const app = express();
+
+    https.createServer(options, app).listen(3000);
 
     app.get('/stats', async (req, res) => {
         statsService.getUserStats((data) => {
@@ -18,12 +19,8 @@ function initializeDataServer() {
             res.send(data);
         });
     });
-
-    https.createServer(options, (req, res) => {
-        console.log('Server is listening on port 3000');
-    }).listen(3000);
 }
 
 module.exports = {
-    initializeStatsController: initializeDataServer
+    initializeStatsController
 }

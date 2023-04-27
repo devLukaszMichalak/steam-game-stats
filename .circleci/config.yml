@@ -26,7 +26,15 @@ jobs:
           command: |
             mkdir -p src/environments
             touch src/environments/environment.js
-            echo -e "const STEAM_API_KEY = '${API_KEY}'; \n const POSTGRES_POOL = {user: '${PG_USER}', host: '${PG_HOST}', database: '${PG_DB}', password: '${PG_PASS}', port: '${PG_PORT}'};  \n const CERT = '${HTTPS_CERT}'; \n const KEY = '${HTTPS_KEY}'; \n module.exports = {STEAM_API_KEY, POSTGRES_POOL, CERT, KEY};" > src/environments/environment.js
+            echo -e "const STEAM_API_KEY = '${API_KEY}'; \n const POSTGRES_POOL = {user: '${PG_USER}', host: '${PG_HOST}', database: '${PG_DB}', password: '${PG_PASS}', port: '${PG_PORT}'}; \n module.exports = {STEAM_API_KEY, POSTGRES_POOL};" > src/environments/environment.js
+      - run:
+          name: Make cert and key file
+          command: |
+            mkdir -p cert
+            touch cert/key.pem
+            echo -e "${HTTPS_KEY}" > src/cert/key.pem 
+            touch cert/cert.pem
+            echo -e "${HTTPS_CERT}" > src/cert/cert.pem
       - run:
           name: Compile into one file
           command: |
@@ -42,6 +50,7 @@ jobs:
           name: Deploy to server
           command: |
             sshpass -p ${PASS} scp dist/index.js $VPS:/root/scripts/deployments/game-stats/${CIRCLE_BUILD_NUM}.js
+            sshpass -p ${PASS} scp -r cert $VPS:/root/scripts/deployments/game-stats/cert
   build_and_deploy_frontend:
     docker:
       - image: cimg/node:current

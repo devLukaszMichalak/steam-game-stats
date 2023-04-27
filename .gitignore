@@ -49,6 +49,7 @@ Thumbs.db
 
 # Output
 /backend/game_logs.txt
+/backend/src/game_logs.txt
 
 #env
 backend/src/environments/environment.js
