@@ -55,4 +55,4 @@ backend/src/environments/environment.js
 frontend/src/environments/environment.ts
 
 #cert
-backend/src/cert/
+backend/cert/
