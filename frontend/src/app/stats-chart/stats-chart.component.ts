@@ -39,7 +39,7 @@ export class StatsChartComponent implements OnInit{
                   if(value > 60) {
                     const minutes = value % 60;
                     const hours = Math.floor(value/60);
-                    return `${hours} godz. ${minutes} min.`
+                    return `${hours} godz.\n${minutes} min.`
                   } else {
                     return `${value} min.`;
                   }
