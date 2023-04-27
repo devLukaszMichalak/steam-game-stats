@@ -32,9 +32,9 @@ jobs:
           command: |
             mkdir -p cert
             touch cert/key.pem
-            echo -e "${HTTPS_KEY}" > src/cert/key.pem 
+            echo -e "${HTTPS_KEY}" > cert/key.pem 
             touch cert/cert.pem
-            echo -e "${HTTPS_CERT}" > src/cert/cert.pem
+            echo -e "${HTTPS_CERT}" > cert/cert.pem
       - run:
           name: Compile into one file
           command: |
