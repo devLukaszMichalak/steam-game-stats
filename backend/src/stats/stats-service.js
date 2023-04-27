@@ -1,5 +1,15 @@
 const statsRepository = require("./stats-repository");
 
+function reorderData(data) {
+    const sortedData = {};
+    Object.keys(data)
+        .sort()
+        .forEach(date => {
+            sortedData[date] = data[date];
+        });
+    return JSON.stringify(sortedData);
+}
+
 function formatData(data) {
     return data.reduce((acc, {name, date, minutes_played}) => {
         if (!acc[date]) {
@@ -18,7 +28,9 @@ function formatData(data) {
 
 function getUserStats(callback) {
     statsRepository.getUserStats(data => {
-        callback(formatData(data));
+        data = formatData(data);
+        data = reorderData(data);
+        callback(data);
     });
 }
 
