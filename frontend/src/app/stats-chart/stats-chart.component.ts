@@ -32,6 +32,7 @@ export class StatsChartComponent implements OnInit{
             },
             datalabels: {
               color: '#000505',
+              textAlign: 'center',
               formatter: function(value, context) {
                 if (value === 0) {
                   return '';
