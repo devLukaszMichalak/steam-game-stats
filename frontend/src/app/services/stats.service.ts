@@ -10,7 +10,7 @@ export class StatsService {
   private httpClient = inject(HttpClient);
 
   getData(): any {
-    return this.httpClient.get('http://139.144.79.67:3000/stats')
+    return this.httpClient.get('https://139.144.79.67:3000/api/v1/stats')
       .pipe(map(data => this.addMissingZeros(data)))
   }
 

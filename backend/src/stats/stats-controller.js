@@ -13,7 +13,7 @@ function initializeStatsController() {
 
     https.createServer(options, app).listen(3000);
 
-    app.get('/stats', async (req, res) => {
+    app.get('/api/v1/stats', async (req, res) => {
         statsService.getUserStats((data) => {
             res.set('Access-Control-Allow-Origin', '*');
             res.send(data);
