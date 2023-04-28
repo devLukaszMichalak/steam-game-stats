@@ -1,1 +1,2 @@
-<app-stats-chart></app-stats-chart>
+<app-stats-chart (promptForCertificate)="onPromptForCertificateChanged($event)"  *ngIf="!promptForCertificate"></app-stats-chart>
+<app-warning  *ngIf="promptForCertificate"></app-warning>
