@@ -23,7 +23,6 @@ export class StatsChartComponent implements OnInit{
         const canvas = document.getElementById('myChart') as HTMLCanvasElement;
         Chart.register(BarController, BarElement, LinearScale, CategoryScale, Legend, ChartDataLabels);
         this.setChart(canvas, data);
-        this.promptForCertificate.emit(true);
       },
       error: (err: any) => {
         this.promptForCertificate.emit(true);
