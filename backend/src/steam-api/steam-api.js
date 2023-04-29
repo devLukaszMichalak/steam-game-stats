@@ -2,9 +2,9 @@ const https = require('https');
 
 const log = require("../logs/log");
 const {getCurrentTimestamp} = require("../utils/date");
-const {updateUserStats} = require("../stats/stats-repository");
+const statsRepository = require("../stats/stats-repository");
 const {STEAM_API_KEY} = require("../environments/environment");
-const {mapPersonStatus} = require("../utils/personastate");
+const {mapPersonStatus, PERSONA_STATE} = require("../utils/personastate");
 
 const apiKey = STEAM_API_KEY
 
@@ -13,6 +13,16 @@ function getFormattedResult(gameName, personName, timestamp, personaState) {
         return `${personName} at ${timestamp} is playing ${gameName}. Status: ${mapPersonStatus(personaState)}\n`;
     } else {
         return `${personName} at ${timestamp} is not playing any game. Status: ${mapPersonStatus(personaState)}\n`;
+    }
+}
+
+function getFormattedCurrentStatus(gameName, personaState) {
+    if (gameName !== undefined) {
+        return `Status: ${mapPersonStatus(personaState)}. Currently played game: ${gameName}.`;
+    } else if(personaState !== PERSONA_STATE.Offline) {
+        return `Status: ${mapPersonStatus(personaState)}. Currently no game is being played.`;
+    } else {
+        return `Status: ${mapPersonStatus(personaState)}.`;
     }
 }
 
@@ -38,9 +48,11 @@ function dealWithResponse(response) {
         const {gameName, personName, personaState} = extractGameInformation(data);
         const timestampString = getCurrentTimestamp().toISOString();
         const resultLog = getFormattedResult(gameName, personName, timestampString, personaState);
+        const status = getFormattedCurrentStatus(gameName, personaState);
 
         log.appendLogFile(resultLog);
-        updateUserStats(gameName, personaState);
+        statsRepository.setCurrentUserStatus(status);
+        statsRepository.updateUserStats(gameName, personaState);
     });
 }
 

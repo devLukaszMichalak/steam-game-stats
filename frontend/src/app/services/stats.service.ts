@@ -1,6 +1,6 @@
 import {inject, Injectable, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map} from "rxjs";
+import {map, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,10 @@ export class StatsService {
   getData(): any {
     return this.httpClient.get('https://139.144.79.67:3000/api/v1/stats')
       .pipe(map(data => this.addMissingZeros(data)))
+  }
+
+  getCurrentStatus(): Observable<any> {
+    return this.httpClient.get('https://139.144.79.67:3000/api/v1/current-status')
   }
 
   private addMissingZeros(data: any): any {

@@ -2,36 +2,42 @@ import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {BarController, BarElement, CategoryScale, Chart, Legend, LinearScale} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {StatsService} from "../../services/stats.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-stats-chart',
   templateUrl: './stats-chart.component.html',
   styleUrls: ['./stats-chart.component.scss']
 })
-export class StatsChartComponent implements OnInit{
+export class StatsChartComponent implements OnInit {
 
   statsService = inject(StatsService);
 
   @Output()
   promptForCertificate = new EventEmitter<boolean>();
 
+  status?: string;
+
   private chart?: Chart;
 
   ngOnInit() {
-    this.statsService.getData().subscribe({
-      next: (data: any) => {
-        const canvas = document.getElementById('myChart') as HTMLCanvasElement;
-        Chart.register(BarController, BarElement, LinearScale, CategoryScale, Legend, ChartDataLabels);
-        this.setChart(canvas, data);
-      },
-      error: (err: any) => {
-        this.promptForCertificate.emit(true);
-      }
-    });
+    this.statsService.getData().pipe(take(1))
+      .subscribe({
+        next: (data: any) => {
+          const canvas = document.getElementById('myChart') as HTMLCanvasElement;
+          Chart.register(BarController, BarElement, LinearScale, CategoryScale, Legend, ChartDataLabels);
+          this.setChart(canvas, data);
+        },
+        error: (err: any) => {
+          this.promptForCertificate.emit(true);
+        }
+      });
+    this.statsService.getCurrentStatus().pipe(take(1))
+      .subscribe(res => this.status = res.status)
   }
 
   private setChart(canvas: HTMLCanvasElement, data: any) {
-    this.chart =  new Chart(canvas, {
+    this.chart = new Chart(canvas, {
       type: 'bar',
       data: {
         labels: this.getDays(data),
@@ -86,7 +92,7 @@ export class StatsChartComponent implements OnInit{
     });
   }
 
-  private getDays(data: any): string[]{
+  private getDays(data: any): string[] {
     return Object.keys(data);
   }
 
@@ -108,7 +114,7 @@ export class StatsChartComponent implements OnInit{
         data: counts[game],
         backgroundColor: color,
         borderWidth: 4,
-        borderColor: color.replace(`0.4`,`0.55`)
+        borderColor: color.replace(`0.4`, `0.55`)
       });
     }
     return datasets;

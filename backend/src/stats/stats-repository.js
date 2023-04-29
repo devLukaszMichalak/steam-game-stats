@@ -5,6 +5,7 @@ const {PERSONA_STATE} = require("../utils/personastate");
 const log = require("../logs/log");
 
 const pool = new Pool(POSTGRES_POOL);
+let currentStatus = null;
 
 const createTablesQuery = `
   CREATE TABLE IF NOT EXISTS games (
@@ -59,8 +60,18 @@ function getUserStats(callback) {
     });
 }
 
+function getCurrentUserStatus() {
+    return currentStatus;
+}
+
+function setCurrentUserStatus(status) {
+    currentStatus = status;
+}
+
 module.exports = {
     initializeTables,
     updateUserStats,
-    getUserStats
+    getUserStats,
+    getCurrentUserStatus,
+    setCurrentUserStatus
 }

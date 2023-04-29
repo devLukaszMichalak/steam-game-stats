@@ -34,6 +34,15 @@ function getUserStats(callback) {
     });
 }
 
+function getCurrentUserStatus() {
+    let status = statsRepository.getCurrentUserStatus();
+    if (status === null) {
+        status = "Waiting for status update..."
+    }
+    return status;
+}
+
 module.exports = {
     getUserStats,
+    getCurrentUserStatus
 }

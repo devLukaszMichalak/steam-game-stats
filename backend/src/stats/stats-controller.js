@@ -19,6 +19,12 @@ function initializeStatsController() {
             res.send(data);
         });
     });
+
+    app.get('/api/v1/current-status', async (req, res) => {
+        res.set('Access-Control-Allow-Origin', '*');
+        const statusDTO = {status: statsService.getCurrentUserStatus()}
+        res.send(statusDTO);
+    });
 }
 
 module.exports = {
