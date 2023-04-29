@@ -18,7 +18,7 @@ function getFormattedResult(gameName, personName, timestamp, personaState) {
 
 function getFormattedCurrentStatus(gameName, personaState) {
     if (gameName !== undefined) {
-        return `Status: ${mapPersonStatus(personaState)}. Currently played game: ${gameName}.`;
+        return `Status: ${mapPersonStatus(personaState)}. Currently playing game: ${gameName}.`;
     } else if(personaState !== PERSONA_STATE.Offline) {
         return `Status: ${mapPersonStatus(personaState)}. Currently no game is being played.`;
     } else {
