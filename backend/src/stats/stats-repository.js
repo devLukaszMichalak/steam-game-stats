@@ -40,7 +40,10 @@ function getUpdateUserSQL(gameName, date) {
 }
 
 function updateUserStats(gameName, personaState) {
-    if (gameName !== undefined && personaState !== PERSONA_STATE.Snooze && personaState !== PERSONA_STATE.Offline) {
+    if (gameName !== undefined
+        && personaState !== PERSONA_STATE.Snooze
+        && personaState !== PERSONA_STATE.Offline
+        && personaState !== PERSONA_STATE.Away) {
         const date = getCurrentTimestamp().toJSON().substring(0, 10);
         pool.query(getUpdateUserSQL(gameName, date), (error, res) => {
             if (error) {
