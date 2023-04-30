@@ -19,7 +19,7 @@ export class StatsChartComponent implements OnInit {
   status?: string;
   sliderMinValue: number = 1;
   sliderMaxValue?: number;
-  sliderValue?: number;
+  sliderValue: number = 1;
 
   private chartData: any = {};
 
