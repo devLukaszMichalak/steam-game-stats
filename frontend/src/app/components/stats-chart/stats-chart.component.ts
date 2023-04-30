@@ -17,6 +17,11 @@ export class StatsChartComponent implements OnInit {
   promptForCertificate = new EventEmitter<boolean>();
 
   status?: string;
+  sliderMinValue: number = 1;
+  sliderMaxValue?: number;
+  sliderValue: number = 7;
+
+  private chartData: any = {};
 
   private chart?: Chart;
 
@@ -24,9 +29,10 @@ export class StatsChartComponent implements OnInit {
     this.statsService.getData().pipe(take(1))
       .subscribe({
         next: (data: any) => {
-          const canvas = document.getElementById('myChart') as HTMLCanvasElement;
+          this.chartData = data;
+          this.sliderMaxValue = Object.keys(data).length;
           Chart.register(BarController, BarElement, LinearScale, CategoryScale, Legend, ChartDataLabels);
-          this.setChart(canvas, data);
+          this.setChart(data);
         },
         error: (err: any) => {
           this.promptForCertificate.emit(true);
@@ -36,7 +42,8 @@ export class StatsChartComponent implements OnInit {
       .subscribe(res => this.status = res.status)
   }
 
-  private setChart(canvas: HTMLCanvasElement, data: any) {
+  private setChart(data: any) {
+    const canvas = document.getElementById('myChart') as HTMLCanvasElement;
     this.chart = new Chart(canvas, {
       type: 'bar',
       data: {
@@ -130,4 +137,21 @@ export class StatsChartComponent implements OnInit {
     const b = Math.floor(Math.random() * 256);
     return `rgba(${r}, ${g}, ${b}, 0.4)`;
   }
+
+  updateGraphRange() {
+    const dates = Object.keys(this.chartData).sort();
+    const adjustedDates  = dates.slice(-this.sliderValue);
+
+    let adjustedRangeData: any = {};
+    for (let i = 0; i < adjustedDates.length; i++) {
+      adjustedRangeData[adjustedDates[i]] = this.chartData[adjustedDates[i]]
+    }
+
+    this.chart!.data! = {
+      labels: this.getDays(adjustedRangeData),
+      datasets: this.getDatasetsFromData(adjustedRangeData)
+    };
+    this.chart?.update();
+  }
+
 }

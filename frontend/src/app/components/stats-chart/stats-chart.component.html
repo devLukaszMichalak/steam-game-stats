@@ -6,4 +6,11 @@
   <div class="chart-container">
     <canvas id="myChart"></canvas>
   </div>
+
+  <div class="slider-container">
+    <div>Only a last day</div>
+    <input type="range" class="slider" [min]="sliderMinValue" [max]="sliderMaxValue" [(ngModel)]="sliderValue" (input)="updateGraphRange()">
+    <div>All days</div>
+  </div>
+
 </div>
