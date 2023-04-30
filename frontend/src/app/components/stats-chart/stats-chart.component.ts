@@ -19,7 +19,7 @@ export class StatsChartComponent implements OnInit {
   status?: string;
   sliderMinValue: number = 1;
   sliderMaxValue?: number;
-  sliderValue: number = 7;
+  sliderValue?: number;
 
   private chartData: any = {};
 
@@ -31,6 +31,7 @@ export class StatsChartComponent implements OnInit {
         next: (data: any) => {
           this.chartData = data;
           this.sliderMaxValue = Object.keys(data).length;
+          this.sliderValue = this.sliderMaxValue;
           Chart.register(BarController, BarElement, LinearScale, CategoryScale, Legend, ChartDataLabels);
           this.setChart(data);
         },
