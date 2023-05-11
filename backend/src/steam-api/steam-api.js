@@ -19,7 +19,7 @@ function getFormattedResult(gameName, personName, timestamp, personaState) {
 function getFormattedCurrentStatus(gameName, personaState) {
     if (gameName !== undefined) {
         return `Status: ${mapPersonStatus(personaState)}. Currently playing game: ${gameName}.`;
-    } else if(personaState !== PERSONA_STATE.Offline) {
+    } else if (personaState !== PERSONA_STATE.Offline) {
         return `Status: ${mapPersonStatus(personaState)}. Currently no game is being played.`;
     } else {
         return `Status: ${mapPersonStatus(personaState)}.`;
@@ -31,8 +31,9 @@ function extractGameInformation(data) {
     if (players.length === 0) {
         const error = `No such player found!`;
         log.error(error);
+        return {gameName: null, personName: null, personaState: null}
     }
-    const thePlayer = players[0]
+    const thePlayer = players[0];
     const gameName = thePlayer.gameextrainfo;
     const personName = thePlayer.personaname;
     const personaState = thePlayer.personastate;
@@ -46,6 +47,10 @@ function dealWithResponse(response) {
     });
     response.on('end', () => {
         const {gameName, personName, personaState} = extractGameInformation(data);
+        if (gameName === null && personName === null && personaState === null) {
+            return;
+        }
+
         const timestampString = getCurrentTimestamp().toISOString();
         const resultLog = getFormattedResult(gameName, personName, timestampString, personaState);
         const status = getFormattedCurrentStatus(gameName, personaState);
