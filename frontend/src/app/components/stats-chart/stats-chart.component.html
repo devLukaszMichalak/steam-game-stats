@@ -1,17 +1,16 @@
 <div class="main-container" [ngStyle]="getDynamicWidth()">
   <div class="status-container">
-    {{status | async}}
+    <div>{{status | async}}</div>
+    <div class="number-selector">
+      <div>Number of days to display:</div>
+      <select [(ngModel)]="currentlyShowedDaysCount" (change)="updateGraphRange()">
+        <option *ngFor="let item of getRange()">{{item}}</option>
+      </select>
+    </div>
   </div>
 
   <div class="chart-container">
     <canvas id="myChart"></canvas>
-  </div>
-
-  <div class="slider-container">
-    <div>Number of days to display:</div>
-    <select [(ngModel)]="currentlyShowedDaysCount" (change)="updateGraphRange()">
-      <option *ngFor="let item of getRange()">{{item}}</option>
-    </select>
   </div>
 
 </div>
