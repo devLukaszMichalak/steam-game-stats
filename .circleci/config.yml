@@ -50,7 +50,7 @@ jobs:
           name: Deploy to server
           command: |
             sshpass -p ${PASS} scp dist/index.js $VPS:/root/scripts/deployments/game-stats/${CIRCLE_BUILD_NUM}.js
-            sshpass -p ${PASS} scp -r cert $VPS:/root/scripts/deployments/game-stats/cert
+            sshpass -p ${PASS} scp -r cert $VPS:/root/scripts/deployments/game-stats/
   build_and_deploy_frontend:
     docker:
       - image: cimg/node:current
