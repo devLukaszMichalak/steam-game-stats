@@ -1,6 +1,12 @@
 {
   "name": "steam-game-stats",
   "version": "0.0.0",
+  "description": "Chart with game stats",
+  "author": "Łukasz Michalak devLukaszMichalak",
+  "bugs": {
+    "url": "https://github.com/devLukaszMichalak/steam-game-stats/issues"
+  },
+  "homepage": "https://github.com/devLukaszMichalak/steam-game-stats#readme",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

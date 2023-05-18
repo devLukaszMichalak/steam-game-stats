@@ -10,8 +10,9 @@ const options = {
 
 function initializeStatsController() {
     const app = express();
+    const port = 3000;
 
-    https.createServer(options, app).listen(3000);
+    https.createServer(options, app).listen(port);
 
     app.get('/api/v1/stats', async (req, res) => {
         statsService.getUserStats((data) => {
@@ -25,6 +26,8 @@ function initializeStatsController() {
         const statusDTO = {status: statsService.getCurrentUserStatus()}
         res.send(statusDTO);
     });
+
+    console.log(`Server is listening on: ${port}. Visit https://localhost:${port}/api/v1/stats`)
 }
 
 module.exports = {

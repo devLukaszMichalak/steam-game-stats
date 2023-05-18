@@ -1,5 +1,27 @@
 const statsRepository = require("./stats-repository");
 
+function addMissingZeros(data) {
+    const gameNames = [];
+
+    Object.keys(data).forEach(date => {
+        Object.keys(data[date]).forEach(gameName => {
+            if (!gameNames.includes(gameName)) {
+                gameNames.push(gameName);
+            }
+        })
+    })
+
+    Object.keys(data).forEach(date => {
+        gameNames.filter(gameName => {
+            if (!Object.keys(data[date]).includes(gameName)) {
+                data[date][gameName] = 0;
+            }
+        })
+    })
+
+    return data;
+}
+
 function reorderData(data) {
     const sortedData = {};
     Object.keys(data)
@@ -30,6 +52,7 @@ function getUserStats(callback) {
     statsRepository.getUserStats(data => {
         data = formatData(data);
         data = reorderData(data);
+        data = addMissingZeros(data);
         callback(data);
     });
 }

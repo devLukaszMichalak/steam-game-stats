@@ -4,7 +4,8 @@
   "description": "Gathering the play time",
   "main": "backend/src/game_stats.js",
   "scripts": {
-    "run": "node src/game-stats.js"
+    "run": "node src/game-stats.js",
+    "build": "ncc build src/game-stats.js -o dist"
   },
   "repository": {
     "type": "git",

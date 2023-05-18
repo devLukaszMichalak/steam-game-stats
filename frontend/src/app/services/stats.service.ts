@@ -1,6 +1,6 @@
-import {inject, Injectable, OnInit} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map, Observable} from "rxjs";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,32 +11,9 @@ export class StatsService {
 
   getData(): any {
     return this.httpClient.get('https://139.144.79.67:3000/api/v1/stats')
-      .pipe(map(data => this.addMissingZeros(data)))
   }
 
   getCurrentStatus(): Observable<any> {
     return this.httpClient.get('https://139.144.79.67:3000/api/v1/current-status')
-  }
-
-  private addMissingZeros(data: any): any {
-    let gameNames: string[] = [];
-
-    Object.keys(data).forEach(date => {
-      Object.keys(data[date]).forEach(gameName => {
-        if (!gameNames.includes(gameName)) {
-          gameNames.push(gameName);
-        }
-      })
-    })
-
-    Object.keys(data).forEach(date => {
-      gameNames.filter(gameName => {
-        if (!Object.keys(data[date]).includes(gameName)) {
-          data[date][gameName] = 0;
-        }
-      })
-    })
-
-    return data;
   }
 }
