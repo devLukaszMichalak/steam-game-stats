@@ -2,7 +2,7 @@ const statsRepository = require("./stats-repository");
 
 function addMissingZeros(data) {
     const gameNames = [];
-
+    data = JSON.parse(data)
     Object.keys(data).forEach(date => {
         Object.keys(data[date]).forEach(gameName => {
             if (!gameNames.includes(gameName)) {
