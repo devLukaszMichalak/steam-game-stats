@@ -2,7 +2,7 @@ import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {BarController, BarElement, CategoryScale, Chart, Legend, LinearScale} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {StatsService} from "../../services/stats.service";
-import {take} from "rxjs";
+import {map, Observable, take} from "rxjs";
 
 @Component({
   selector: 'app-stats-chart',
@@ -16,10 +16,9 @@ export class StatsChartComponent implements OnInit {
   @Output()
   promptForCertificate = new EventEmitter<boolean>();
 
-  status?: string;
-  sliderMinValue: number = 1;
-  sliderMaxValue?: number;
-  sliderValue: number = 1;
+  status?: Observable<string>;
+  daysCount?: number;
+  currentlyShowedDaysCount: number = 1;
 
   private chartData: any = {};
 
@@ -30,17 +29,17 @@ export class StatsChartComponent implements OnInit {
       .subscribe({
         next: (data: any) => {
           this.chartData = data;
-          this.sliderMaxValue = Object.keys(data).length;
-          this.sliderValue = this.sliderMaxValue;
+          this.daysCount = Object.keys(data).length;
+          this.currentlyShowedDaysCount = this.daysCount > 7 ? 7 : this.daysCount;
           Chart.register(BarController, BarElement, LinearScale, CategoryScale, Legend, ChartDataLabels);
           this.setChart(data);
+          this.updateGraphRange()
         },
         error: (err: any) => {
           this.promptForCertificate.emit(true);
         }
       });
-    this.statsService.getCurrentStatus().pipe(take(1))
-      .subscribe(res => this.status = res.status)
+    this.status = this.statsService.getCurrentStatus().pipe(map(res => res.status));
   }
 
   private setChart(data: any) {
@@ -141,7 +140,7 @@ export class StatsChartComponent implements OnInit {
 
   updateGraphRange() {
     const dates = Object.keys(this.chartData).sort();
-    const adjustedDates  = dates.slice(-this.sliderValue);
+    const adjustedDates  = dates.slice(-this.currentlyShowedDaysCount);
 
     let adjustedRangeData: any = {};
     for (let i = 0; i < adjustedDates.length; i++) {
@@ -155,4 +154,15 @@ export class StatsChartComponent implements OnInit {
     this.chart?.update();
   }
 
+  getDynamicWidth() {
+    if (this.currentlyShowedDaysCount < 11) {
+      return {width: `100%`};
+    } else {
+      return {width: `max(${this.currentlyShowedDaysCount * 90}px, 100%`};
+    }
+  }
+
+  getRange(): number[] {
+    return Array(this.daysCount).fill(0).map((_value, index) => index + 1);
+  }
 }

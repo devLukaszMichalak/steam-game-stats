@@ -1,6 +1,6 @@
-<div class="main-container">
+<div class="main-container" [ngStyle]="getDynamicWidth()">
   <div class="status-container">
-    {{status}}
+    {{status | async}}
   </div>
 
   <div class="chart-container">
@@ -8,9 +8,10 @@
   </div>
 
   <div class="slider-container">
-    <div>Only a last day</div>
-    <input type="range" class="slider" [min]="sliderMinValue" [max]="sliderMaxValue" [(ngModel)]="sliderValue" (input)="updateGraphRange()">
-    <div>All days</div>
+    <div>Number of days to display:</div>
+    <select [(ngModel)]="currentlyShowedDaysCount" (change)="updateGraphRange()">
+      <option *ngFor="let item of getRange()">{{item}}</option>
+    </select>
   </div>
 
 </div>
