@@ -21,13 +21,20 @@ function initializeStatsController() {
         });
     });
 
+    app.get('/api/v1/pureStats', async (req, res) => {
+        statsService.getUserPureStats((data) => {
+            res.set('Access-Control-Allow-Origin', '*');
+            res.send(data);
+        });
+    });
+
     app.get('/api/v1/current-status', async (req, res) => {
         res.set('Access-Control-Allow-Origin', '*');
         const statusDTO = {status: statsService.getCurrentUserStatus()}
         res.send(statusDTO);
     });
 
-    console.log(`Server is listening on: ${port}. Visit https://localhost:${port}/api/v1/stats`)
+    console.log(`Server is listening on: ${port}. Visit https://localhost:${port}/api/v1/pureStats`)
 }
 
 module.exports = {

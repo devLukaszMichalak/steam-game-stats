@@ -1,4 +1,4 @@
-<div class="main-container" [ngStyle]="getDynamicWidth()">
+<div class="main-container" [ngStyle]="isDynamicViewEnabled === 'dynamic'? getDynamicWidth() : getStaticWidth()">
   <div class="status-container">
     <div>{{status | async}}</div>
     <div class="number-selector">
@@ -6,6 +6,11 @@
       <select [(ngModel)]="currentlyShowedDaysCount" (change)="updateGraphRange()">
         <option *ngFor="let item of getRange()">{{item}}</option>
       </select>
+        <div>View mode:</div>
+        <select [(ngModel)]="isDynamicViewEnabled" (change)="updateGraphRange()">
+          <option value="dynamic">Dynamic</option>
+          <option value="static">Static</option>
+        </select>
     </div>
   </div>
 

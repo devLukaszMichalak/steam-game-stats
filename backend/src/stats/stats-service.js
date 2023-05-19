@@ -48,6 +48,14 @@ function formatData(data) {
     }, {});
 }
 
+function getUserPureStats(callback) {
+    statsRepository.getUserStats(data => {
+        data = formatData(data);
+        data = reorderData(data);
+        callback(data);
+    });
+}
+
 function getUserStats(callback) {
     statsRepository.getUserStats(data => {
         data = formatData(data);
@@ -67,5 +75,6 @@ function getCurrentUserStatus() {
 
 module.exports = {
     getUserStats,
+    getUserPureStats,
     getCurrentUserStatus
 }

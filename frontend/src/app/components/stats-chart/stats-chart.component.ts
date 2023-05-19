@@ -1,8 +1,8 @@
 import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {BarController, BarElement, CategoryScale, Chart, Legend, LinearScale} from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {StatsService} from "../../services/stats.service";
-import {map, Observable, take} from "rxjs";
+import {StatsService} from '../../services/stats.service';
+import {map, Observable, take} from 'rxjs';
 
 @Component({
   selector: 'app-stats-chart',
@@ -18,11 +18,12 @@ export class StatsChartComponent implements OnInit {
 
   status?: Observable<string>;
   daysCount?: number;
-  currentlyShowedDaysCount: number = 1;
 
-  private chartData: any = {};
+  currentlyShowedDaysCount: number = 1;
+  isDynamicViewEnabled: string = 'dynamic';
 
   private chart?: Chart;
+  private chartData: any = {};
 
   ngOnInit() {
     this.statsService.getData().pipe(take(1))
@@ -54,7 +55,7 @@ export class StatsChartComponent implements OnInit {
         plugins: {
           legend: {
             display: true,
-            position: "bottom"
+            position: 'bottom'
           },
           datalabels: {
             color: '#000505',
@@ -140,7 +141,7 @@ export class StatsChartComponent implements OnInit {
 
   updateGraphRange() {
     const dates = Object.keys(this.chartData).sort();
-    const adjustedDates  = dates.slice(-this.currentlyShowedDaysCount);
+    const adjustedDates = dates.slice(-this.currentlyShowedDaysCount);
 
     let adjustedRangeData: any = {};
     for (let i = 0; i < adjustedDates.length; i++) {
@@ -155,11 +156,11 @@ export class StatsChartComponent implements OnInit {
   }
 
   getDynamicWidth() {
-    if (this.currentlyShowedDaysCount < 11) {
-      return {width: `100%`};
-    } else {
-      return {width: `max(${this.currentlyShowedDaysCount * 90}px, 100%`};
-    }
+    return {width: `100%`};
+  }
+
+  getStaticWidth() {
+    return {width: `${this.currentlyShowedDaysCount * 100}px`};
   }
 
   getRange(): number[] {
