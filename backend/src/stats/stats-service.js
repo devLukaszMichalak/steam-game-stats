@@ -52,6 +52,7 @@ function getUserPureStats(callback) {
     statsRepository.getUserStats(data => {
         data = formatData(data);
         data = reorderData(data);
+        data = JSON.parse(data)
         callback(data);
     });
 }
