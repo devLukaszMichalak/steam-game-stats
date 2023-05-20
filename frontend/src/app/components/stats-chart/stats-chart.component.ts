@@ -140,17 +140,33 @@ export class StatsChartComponent implements OnInit {
   }
 
   updateGraphRange() {
-    const dates = Object.keys(this.chartData).sort();
-    const adjustedDates = dates.slice(-this.currentlyShowedDaysCount);
+    const reducedDates = Object.keys(this.chartData).sort().slice(-this.currentlyShowedDaysCount);
+    let adjustedData: any = {};
 
-    let adjustedRangeData: any = {};
-    for (let i = 0; i < adjustedDates.length; i++) {
-      adjustedRangeData[adjustedDates[i]] = this.chartData[adjustedDates[i]]
+    for (const date of reducedDates) {
+      adjustedData[date] = { ...this.chartData[date] };
+    }
+
+    for (const game in this.chartData[reducedDates[0]]) {
+      let removeGame = true;
+
+      for (const date in adjustedData) {
+        if (adjustedData[date][game] !== 0) {
+          removeGame = false;
+          break;
+        }
+      }
+
+      if (removeGame) {
+        for (const date in adjustedData) {
+          delete adjustedData[date][game];
+        }
+      }
     }
 
     this.chart!.data! = {
-      labels: this.getDays(adjustedRangeData),
-      datasets: this.getDatasetsFromData(adjustedRangeData)
+      labels: this.getDays(adjustedData),
+      datasets: this.getDatasetsFromData(adjustedData)
     };
     this.chart?.update();
   }
